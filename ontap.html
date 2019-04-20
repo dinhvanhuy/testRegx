@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.8.6/xlsx.full.min.js"></script>
+    <title></title>
+</head>
+<body>
+
+<p>Please select an Excel file from your computer:</p>
+<input type="file" id="file-object">
+<div id="result"></div>
+</body>
+<script type="text/javascript">
+    document.getElementById('file-object').addEventListener("change", function(e) {
+        
+    loadData(e).then(data=> {
+        console.log(data);
+    });
+});
+    function loadData(e) {
+        var x = new Promise((resolve, reject) => {
+             var files = e.target.files,file;
+        if (!files || files.length == 0) return;
+        file = files[0];
+        var fileReader = new FileReader();
+        fileReader.onload = function (e) {
+          var filename = file.name;
+          // call 'xlsx' to read the file
+          var binary = "";
+          var bytes = new Uint8Array(e.target.result);
+          var length = bytes.byteLength;
+          for (var i = 0; i < length; i++) {
+            binary += String.fromCharCode(bytes[i]);
+          }
+          var oFile = XLSX.read(binary, {type: 'binary', cellDates:true, cellStyles:true});
+          resolve(oFile);
+        };
+
+  // console.log(oFile);
+      fileReader.readAsArrayBuffer(file);
+ return x;
+  
+        });
+    }
+
+    let a = 'Huy is number once';
+    let codingReguar= /huy|hanh|huong/i;
+    let result = codingReguar.test(a);
+    console.log(result);
+
+
+</script>
+</html>
